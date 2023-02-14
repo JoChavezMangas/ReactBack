@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace ReactBack.Controllers
 {
@@ -18,7 +19,7 @@ namespace ReactBack.Controllers
         {
             List<EmpresasDTO> result = new List<EmpresasDTO>();
 
-            EmpresasDTO empresasDTO = new EmpresasDTO() { id = Guid.NewGuid().ToString(), name = "Nombre", Phone = "961-895-15", email = "akjs@ejje.com", status = "status" };
+            EmpresasDTO empresasDTO = new EmpresasDTO() { id = Guid.NewGuid().ToString(), name = "Nombre", phoneNumber = "961-895-15", email = "akjs@ejje.com", status = "status" };
 
             result.Add(empresasDTO);
 
@@ -108,14 +109,42 @@ namespace ReactBack.Controllers
             result.Add(empresasDTO4);
             result.Add(empresasDTO5);
 
+            if (!string.IsNullOrEmpty(FilterValue))
+            {
+                result = result.Where(z => z.name.ToLower().Contains(FilterValue.ToLower())).ToList();
+            }
+
             return result;
         }
 
 
+        [HttpPost("CreateEmployee")]
+        public string CreateEmployee(string someString="")
+        {
+            var result = someString;
+            return "ok";
+        }
 
-        
+
+        //[HttpPost("CreateEmpresa")]
+        //public string CreateEmpresa( [FromBody]object param)
+        //{
+        //    //var justTry= JsonSerializer.Deserialize(param,EmpleadoDTO)
 
 
+        //    var result = param;
+        //    return "ok";
+        //}
+
+        [HttpPost("CreateEmpresa")]
+        public string CreateEmpresa([FromBody] EmpresasDTO param)
+        {
+            //var justTry= JsonSerializer.Deserialize(param,EmpleadoDTO)
+
+
+            var result = param;
+            return "ok";
+        }
 
         // GET: EndPoints
         public ActionResult Index()
